@@ -37,10 +37,10 @@ class DelayPenaltyIT {
   private CognitoComponent cognitoComponentMock;
 
   private static ApiClient anApiClient(String token) {
-    return TestUtils.anApiClient(token, DelayPenaltyIT.ContextInitializer.SERVER_PORT);
+    return TestUtils.anApiClient(token, ContextInitializer.SERVER_PORT);
   }
 
-  static DelayPenalty delayPenalty() {
+  private static DelayPenalty delayPenalty() {
     DelayPenalty delayPenalty = new DelayPenalty();
     delayPenalty.interestPercent(0);
     delayPenalty.interestTimerate(DelayPenalty.InterestTimerateEnum.DAILY);
@@ -50,7 +50,7 @@ class DelayPenaltyIT {
     return delayPenalty;
   }
 
-  static CreateDelayPenaltyChange createDelayPenalty1() {
+  private static CreateDelayPenaltyChange createDelayPenalty1() {
     return new CreateDelayPenaltyChange()
             .interestPercent(0)
             .interestTimerate(CreateDelayPenaltyChange.InterestTimerateEnum.DAILY)
@@ -90,13 +90,7 @@ class DelayPenaltyIT {
 
     assertThrowsApiException(
         "{\"type\":\"403 FORBIDDEN\",\"message\":\"Access is denied\"}",
-        () -> api.getStudentFeeById(STUDENT2_ID, FEE2_ID));
-    assertThrowsApiException(
-        "{\"type\":\"403 FORBIDDEN\",\"message\":\"Access is denied\"}",
-        () -> api.getStudentFees(STUDENT2_ID, null, null, null));
-    assertThrowsApiException(
-        "{\"type\":\"403 FORBIDDEN\",\"message\":\"Access is denied\"}",
-        () -> api.getFees(null, null, null));
+        () -> api.getDelayPenalty());
   }
 
   @Test
@@ -106,13 +100,7 @@ class DelayPenaltyIT {
 
     assertThrowsApiException(
         "{\"type\":\"403 FORBIDDEN\",\"message\":\"Access is denied\"}",
-        () -> api.getStudentFeeById(STUDENT2_ID, FEE2_ID));
-    assertThrowsApiException(
-        "{\"type\":\"403 FORBIDDEN\",\"message\":\"Access is denied\"}",
-        () -> api.getStudentFees(STUDENT2_ID, null, null, null));
-    assertThrowsApiException(
-        "{\"type\":\"403 FORBIDDEN\",\"message\":\"Access is denied\"}",
-        () -> api.getFees(null, null, null));
+        () -> api.getDelayPenalty());
   }
 
   @Test
