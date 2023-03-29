@@ -14,7 +14,7 @@ public class DelayPenaltyController {
   private final DelatyPenaltyMapper mapper;
 
   @GetMapping("/delay_penalty")
-  public DelayPenalty getCurrentDelayPenalty() {
+  public DelayPenalty getCurrentDelayPenalty(){
     return mapper.toRest(service.getDelayPenalty());
   }
 }
