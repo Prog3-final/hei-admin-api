@@ -42,7 +42,7 @@ class DelayPenaltyIT {
     return TestUtils.anApiClient(token, ContextInitializer.SERVER_PORT);
   }
 
-  private static DelayPenalty delayPenalty() {
+  public static DelayPenalty delayPenalty() {
     DelayPenalty delayPenalty = new DelayPenalty();
     delayPenalty.id("delay_penalty1_id");
     delayPenalty.interestPercent(0);
