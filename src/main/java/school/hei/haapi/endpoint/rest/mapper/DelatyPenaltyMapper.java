@@ -5,7 +5,7 @@ import school.hei.haapi.endpoint.rest.model.DelayPenalty;
 
 @Component
 public class DelatyPenaltyMapper {
-  public DelayPenalty toRest (school.hei.haapi.model.DelayPenalty domain){
+  public DelayPenalty toRest(school.hei.haapi.model.DelayPenalty domain) {
     return new DelayPenalty()
         .id(domain.getId())
         .interestPercent(domain.getInterestPercent())
