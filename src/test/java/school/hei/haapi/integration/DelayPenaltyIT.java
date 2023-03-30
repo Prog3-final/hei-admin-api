@@ -79,7 +79,6 @@ class DelayPenaltyIT {
     PayingApi api = new PayingApi(teacher1Client);
 
     DelayPenalty actualDelayPenalty = api.getDelayPenalty();
-
     assertEquals(delayPenalty(), actualDelayPenalty);
   }
 
