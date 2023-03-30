@@ -13,4 +13,5 @@ public class DelayPenaltyService {
   public DelayPenalty getDelayPenalty() {
     return repository.findAll().get(0);
   }
+
 }
