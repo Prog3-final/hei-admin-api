@@ -22,6 +22,6 @@ public class DelayPenaltyController {
 
   @PutMapping("/delay_penalty_change")
   public DelayPenalty putDelayPenalty(@RequestBody school.hei.haapi.model.DelayPenalty toUpdate){
-    return mapper.toDomain(service.changeDelayPenalty(toUpdate));
+    return mapper.toRestDelay(service.crupdateDelayPenalty(toUpdate));
   }
 }
