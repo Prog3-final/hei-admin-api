@@ -17,10 +17,10 @@ public class DelatyPenaltyMapper {
   }
   public DelayPenalty toDomain(school.hei.haapi.model.DelayPenalty toUpdate) {
     var delayPenalty = new school.hei.haapi.endpoint.rest.model.DelayPenalty();
-    delayPenalty.setInterestPercent(delayPenalty.getInterestPercent());
-    delayPenalty.setInterestTimerate(delayPenalty.getInterestTimerate());
-    delayPenalty.setGraceDelay(delayPenalty.getGraceDelay());
-    delayPenalty.setApplicabilityDelayAfterGrace(delayPenalty.getApplicabilityDelayAfterGrace());
+    delayPenalty.setInterestPercent(toUpdate.getInterestPercent());
+    delayPenalty.setInterestTimerate(toUpdate.getInterestTimeRate());
+    delayPenalty.setGraceDelay(toUpdate.getGraceDelay());
+    delayPenalty.setApplicabilityDelayAfterGrace(toUpdate.getApplicabilityDelayAfterGrace());
 
     return delayPenalty;
   }
