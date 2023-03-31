@@ -6,6 +6,7 @@ import static school.hei.haapi.integration.conf.TestUtils.MANAGER1_TOKEN;
 import static school.hei.haapi.integration.conf.TestUtils.STUDENT1_TOKEN;
 import static school.hei.haapi.integration.conf.TestUtils.TEACHER1_TOKEN;
 import static school.hei.haapi.integration.conf.TestUtils.anAvailableRandomPort;
+import static school.hei.haapi.integration.conf.TestUtils.assertThrowsApiException;
 import static school.hei.haapi.integration.conf.TestUtils.setUpCognito;
 import java.time.Instant;
 import org.junit.jupiter.api.BeforeEach;
@@ -89,6 +90,37 @@ class DelayPenaltyIT {
 
     DelayPenalty actualDelayPenalty = api.getDelayPenalty();
     assertEquals(delayPenalty(), actualDelayPenalty);
+  }
+
+  @Test
+  void manager_write_ok() throws ApiException {
+    ApiClient manager1Client = anApiClient(MANAGER1_TOKEN);
+    PayingApi api = new PayingApi(manager1Client);
+
+    DelayPenalty actual = api.changeDelayPenaltyChange(createDelayPenalty1());
+
+    DelayPenalty expected = api.getDelayPenalty();
+    assertEquals(actual, expected);
+  }
+
+  @Test
+  void student_write_ko() {
+    ApiClient student1Client = anApiClient(STUDENT1_TOKEN);
+    PayingApi api = new PayingApi(student1Client);
+
+    assertThrowsApiException(
+            "{\"type\":\"403 FORBIDDEN\",\"message\":\"Access is denied\"}",
+            () -> api.changeDelayPenaltyChange(createDelayPenalty1()));
+  }
+
+  @Test
+  void teacher_write_ko() {
+    ApiClient teacher1Client = anApiClient(TEACHER1_TOKEN);
+    PayingApi api = new PayingApi(teacher1Client);
+
+    assertThrowsApiException(
+            "{\"type\":\"403 FORBIDDEN\",\"message\":\"Access is denied\"}",
+            () -> api.changeDelayPenaltyChange(createDelayPenalty1()));
   }
 
   static class ContextInitializer extends AbstractContextInitializer {
