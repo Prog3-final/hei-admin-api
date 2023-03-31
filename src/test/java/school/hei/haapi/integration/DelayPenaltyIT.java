@@ -110,7 +110,7 @@ class DelayPenaltyIT {
     ApiClient manager1Client = anApiClient(MANAGER1_TOKEN);
     PayingApi api = new PayingApi(manager1Client);
 
-    DelayPenalty actual = api.createDelayPenaltyChange(createDelayPenalty1());
+    DelayPenalty actual = api.changeDelayPenaltyChange(createDelayPenalty1());
 
     DelayPenalty expected = api.getDelayPenalty();
     assertEquals(actual, expected);
@@ -123,7 +123,7 @@ class DelayPenaltyIT {
 
     assertThrowsApiException(
         "{\"type\":\"403 FORBIDDEN\",\"message\":\"Access is denied\"}",
-        () -> api.createDelayPenaltyChange(createDelayPenalty1()));
+        () -> api.changeDelayPenaltyChange(createDelayPenalty1()));
   }
 
   @Test
@@ -133,7 +133,7 @@ class DelayPenaltyIT {
 
     assertThrowsApiException(
         "{\"type\":\"403 FORBIDDEN\",\"message\":\"Access is denied\"}",
-        () -> api.createDelayPenaltyChange(createDelayPenalty1()));
+        () -> api.changeDelayPenaltyChange(createDelayPenalty1()));
   }
   static class ContextInitializer extends AbstractContextInitializer {
     public static final int SERVER_PORT = anAvailableRandomPort();
