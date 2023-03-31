@@ -50,12 +50,23 @@ class DelayPenaltyIT {
     return delayPenalty;
   }
 
+  public static DelayPenalty delayUpdated(){
+    DelayPenalty delayPenalty = new DelayPenalty();
+    delayPenalty.id("delay_penalty1_id");
+    delayPenalty.interestPercent(2);
+    delayPenalty.interestTimerate(DelayPenalty.InterestTimerateEnum.DAILY);
+    delayPenalty.graceDelay(2);
+    delayPenalty.applicabilityDelayAfterGrace(2);
+    delayPenalty.creationDatetime(Instant.parse("2021-12-09T08:25:24.00Z"));
+    return delayPenalty;
+  }
+
   private static CreateDelayPenaltyChange createDelayPenalty1() {
     return new CreateDelayPenaltyChange()
-        .interestPercent(0)
+        .interestPercent(2)
         .interestTimerate(CreateDelayPenaltyChange.InterestTimerateEnum.DAILY)
-        .graceDelay(0)
-        .applicabilityDelayAfterGrace(0);
+        .graceDelay(2)
+        .applicabilityDelayAfterGrace(2);
   }
 
   @BeforeEach
@@ -90,6 +101,15 @@ class DelayPenaltyIT {
 
     DelayPenalty actualDelayPenalty = api.getDelayPenalty();
     assertEquals(delayPenalty(), actualDelayPenalty);
+  }
+
+  @Test
+  void manager_update_delay_ok() throws ApiException{
+    ApiClient managerClient1 = anApiClient(MANAGER1_TOKEN);
+    PayingApi api = new PayingApi(managerClient1);
+
+    DelayPenalty delayUpdated = api.changeDelayPenaltyChange(createDelayPenalty1());
+    assertEquals(delayUpdated(), delayUpdated);
   }
 
   static class ContextInitializer extends AbstractContextInitializer {

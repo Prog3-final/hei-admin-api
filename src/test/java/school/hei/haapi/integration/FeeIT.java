@@ -79,6 +79,7 @@ class FeeIT {
     return fee;
   }
 
+
   static Fee fee3() {
     Fee fee = new Fee();
     fee.setId(FEE3_ID);
