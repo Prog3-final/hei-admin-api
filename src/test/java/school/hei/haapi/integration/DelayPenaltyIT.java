@@ -113,9 +113,15 @@ class DelayPenaltyIT {
     DelayPenalty actual = api.changeDelayPenaltyChange(createDelayPenalty1());
 
     DelayPenalty expected = api.getDelayPenalty();
-    assertEquals(actual, expected);
+    assertEquals(expected,actual );
   }
 
+  void manager_updat_ok() throws ApiException {
+    ApiClient manager1Client = anApiClient(MANAGER1_TOKEN);
+    PayingApi api = new PayingApi(manager1Client);
+
+
+  }
   @Test
   void student_write_ko() {
     ApiClient student1Client = anApiClient(STUDENT1_TOKEN);
