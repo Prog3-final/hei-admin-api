@@ -51,12 +51,20 @@ class DelayPenaltyIT {
     return delayPenalty;
   }
 
-  private static CreateDelayPenaltyChange createDelayPenalty1() {
+  public static CreateDelayPenaltyChange createDelayPenalty1() {
     return new CreateDelayPenaltyChange()
-        .interestPercent(0)
+        .interestPercent(12)
         .interestTimerate(CreateDelayPenaltyChange.InterestTimerateEnum.DAILY)
-        .graceDelay(0)
+        .graceDelay(2)
         .applicabilityDelayAfterGrace(0);
+  }
+
+  public static DelayPenalty expectedCreated() {
+    return new DelayPenalty()
+        .interestPercent(createDelayPenalty1().getInterestPercent())
+        .interestTimerate(DelayPenalty.InterestTimerateEnum.DAILY)
+        .graceDelay(createDelayPenalty1().getGraceDelay())
+        .applicabilityDelayAfterGrace(createDelayPenalty1().getApplicabilityDelayAfterGrace());
   }
 
   @BeforeEach
@@ -99,8 +107,10 @@ class DelayPenaltyIT {
 
     DelayPenalty actual = api.changeDelayPenaltyChange(createDelayPenalty1());
 
-    DelayPenalty expected = api.getDelayPenalty();
-    assertEquals(actual, expected);
+    assertEquals(expectedCreated()
+            .id(actual.getId())
+            .creationDatetime(actual.getCreationDatetime())
+        , actual);
   }
 
   @Test
@@ -109,8 +119,8 @@ class DelayPenaltyIT {
     PayingApi api = new PayingApi(student1Client);
 
     assertThrowsApiException(
-            "{\"type\":\"403 FORBIDDEN\",\"message\":\"Access is denied\"}",
-            () -> api.changeDelayPenaltyChange(createDelayPenalty1()));
+        "{\"type\":\"403 FORBIDDEN\",\"message\":\"Access is denied\"}",
+        () -> api.changeDelayPenaltyChange(createDelayPenalty1()));
   }
 
   @Test
@@ -119,8 +129,8 @@ class DelayPenaltyIT {
     PayingApi api = new PayingApi(teacher1Client);
 
     assertThrowsApiException(
-            "{\"type\":\"403 FORBIDDEN\",\"message\":\"Access is denied\"}",
-            () -> api.changeDelayPenaltyChange(createDelayPenalty1()));
+        "{\"type\":\"403 FORBIDDEN\",\"message\":\"Access is denied\"}",
+        () -> api.changeDelayPenaltyChange(createDelayPenalty1()));
   }
 
   static class ContextInitializer extends AbstractContextInitializer {
