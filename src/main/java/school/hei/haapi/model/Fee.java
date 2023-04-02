@@ -89,6 +89,7 @@ public class Fee implements Serializable {
 
     if (delay <= delayPenalty.getGraceDelay()) {
       // No penalty during the grace period
+      remainingAmount = getRemainingAmount();
     } else if (delay <= (delayPenalty.getGraceDelay() + delayPenalty.getApplicabilityDelayAfterGrace())) {
       penaltyAmount = (int) Math.round(remainingAmount * delayPenalty.getInterestPercent() / 100.0);
     } else {
