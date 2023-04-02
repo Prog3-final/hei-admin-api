@@ -74,34 +74,40 @@ public class Fee implements Serializable {
   public int calculateDelayPenalty(DelayPenalty delayPenalty) {
     Instant dueDate = getDueDatetime();
     if (dueDate == null) {
-      return 0;
+      return remainingAmount;
     }
 
     Instant now = Instant.now();
     long delay = Duration.between(dueDate, now).toDays();
     if (delay <= 0) {
-      return 0;
+      return remainingAmount;
     }
 
-    int penaltyAmount = 0;
     int remainingAmount = getRemainingAmount();
     int totalAmount = getTotalAmount();
+    int penaltyAmount = 0;
 
     if (delay <= delayPenalty.getGraceDelay()) {
-      penaltyAmount = 0;
-    } else if (delay <=
-        (delayPenalty.getGraceDelay() + delayPenalty.getApplicabilityDelayAfterGrace())) {
+      // No penalty during the grace period
+    } else if (delay <= (delayPenalty.getGraceDelay() + delayPenalty.getApplicabilityDelayAfterGrace())) {
       penaltyAmount = (int) Math.round(remainingAmount * delayPenalty.getInterestPercent() / 100.0);
     } else {
       int maxPenalty = totalAmount * delayPenalty.getInterestPercent() / 100;
-      int appliedDelay = (int) (delay - delayPenalty.getApplicabilityDelayAfterGrace() -
-          delayPenalty.getGraceDelay());
-      int applicableMaxPenalty =
-          maxPenalty * appliedDelay / TIME_RATE_TO_DAYS.get(delayPenalty.getInterestTimeRate());
+      int appliedDelay = (int) (delay - delayPenalty.getApplicabilityDelayAfterGrace() - delayPenalty.getGraceDelay());
+      int applicableMaxPenalty = maxPenalty * appliedDelay / TIME_RATE_TO_DAYS.get(delayPenalty.getInterestTimeRate());
 
       penaltyAmount = Math.min(applicableMaxPenalty, maxPenalty);
     }
-    return penaltyAmount;
+
+    remainingAmount += penaltyAmount;
+    return remainingAmount;
+  }
+  public int getRemainingAmount() {
+    return remainingAmount;
+  }
+
+  public void setRemainingAmount(int remainingAmount) {
+    this.remainingAmount = remainingAmount;
   }
 
   @Override
