@@ -186,7 +186,7 @@ class FeeIT {
 
     List<Fee> actual = api.createStudentFees(STUDENT1_ID, List.of(creatableFee1()));
 
-    List<Fee> expected = api.getStudentFees(STUDENT1_ID, 1, 5, null);
+    List<Fee> expected = api.getStudentFees(STUDENT1_ID, 1, 6, null);
     assertTrue(expected.containsAll(actual));
   }
 
