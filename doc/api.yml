@@ -1011,6 +1011,9 @@ components:
     Student:
       allOf:
         - $ref: '#/components/schemas/User'
+      properties:
+        student_grace_delay:
+          type: integer
     Teacher:
       allOf:
         - $ref: '#/components/schemas/User'

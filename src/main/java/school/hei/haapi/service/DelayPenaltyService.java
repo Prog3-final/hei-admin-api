@@ -34,11 +34,11 @@ public class DelayPenaltyService {
   public void applyDelayPenalty() {
     List<Fee> lateFees = feeRepository.getFeesByStatus(StatusEnum.LATE);
     DelayPenalty currentDelayPenalty = this.getDelayPenalty();
-    int graceDelay = currentDelayPenalty.getGraceDelay();
     int applicabilityDelayAfterGrace = currentDelayPenalty.getApplicabilityDelayAfterGrace();
     List<Fee> updatedLateFees = new ArrayList<>();
     lateFees.forEach(lateFee -> {
       Instant dueDateTime = lateFee.getDueDatetime();
+      int graceDelay = lateFee.getStudent().getStudentGraceDelay();
       if (dueDateTime.plus(graceDelay, ChronoUnit.DAYS).isBefore(Instant.now())
           && dueDateTime
           .plus(graceDelay + applicabilityDelayAfterGrace, ChronoUnit.DAYS)
